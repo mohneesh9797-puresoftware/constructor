@@ -1,3 +1,22 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@ossdev07 
+0
+091ossdev07/constructor
+forked from conda/constructor
+ Code Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+constructor/.travis.yml
+@msarahan msarahan remove support for conda less than 4.6
+44d73bd on Aug 9, 2019
+@msarahan@nehaljwani@soapy1@goanpeca
+82 lines (70 sloc)  2.06 KB
+  
 # https://travis-ci.org/conda/constructor
 
 language: python
@@ -55,14 +74,16 @@ install:
   - export CONDA_AUTO_UPDATE_CONDA="false"
 
   - if [ "${CONDA_CANARY}" = "true" ]; then
-      ./conda.exe create -y -q -p ~/miniconda -c conda-canary conda python=$PYTHON_VERSION;
+      ./conda config --add channels conda-canary
+      ./conda update conda
+      ./conda.exe create -y -q -n test conda python=3.7;
     else
       ./conda.exe create -y -q -p ~/miniconda -c conda-canary conda=$CONDA_VERSION python=$PYTHON_VERSION;
     fi
-  - ./conda.exe install -y -p ~/miniconda pillow>=3.1 ruamel_yaml conda-forge::codecov pytest pytest-cov
-  - source "$HOME"/miniconda/bin/activate
+  - ./conda.exe install -n test pillow>=3.1 ruamel_yaml conda-forge::codecov pytest pytest-cov
+  - source "$HOME"/miniconda/bin/activate test 
   # Install this package
-  - python setup.py develop
+  - pip install --user .
 
   # this needs
   - mkdir $HOME/miniconda/standalone_conda
@@ -80,3 +101,15 @@ script:
 
 after_success:
   - codecov
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
