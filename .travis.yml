@@ -74,8 +74,8 @@ install:
   - export CONDA_AUTO_UPDATE_CONDA="false"
 
   - if [ "${CONDA_CANARY}" = "true" ]; then
-      ./conda config --add channels conda-canary
-      ./conda update conda
+      ./conda.exe config --add channels conda-canary;
+      ./conda.exe update conda.exe;
       ./conda.exe create -y -q -n test conda python=3.7;
     else
       ./conda.exe create -y -q -p ~/miniconda -c conda-canary conda=$CONDA_VERSION python=$PYTHON_VERSION;
